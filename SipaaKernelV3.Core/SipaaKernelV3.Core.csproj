@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Cosmos.System2" Version="0.1.0-localbuild20220721110206" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\SipaaKernel.Graphiques\SipaaKernelV3.Graphics.csproj" />
+  </ItemGroup>
+
+</Project>

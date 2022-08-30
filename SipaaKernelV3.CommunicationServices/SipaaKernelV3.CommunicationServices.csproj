@@ -1,0 +1,27 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Resources\about.bmp" />
+    <None Remove="Resources\consolemode.bmp" />
+    <None Remove="Resources\pointer.bmp" />
+    <None Remove="Resources\wallpaper.bmp" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\about.bmp" />
+    <EmbeddedResource Include="Resources\consolemode.bmp" />
+    <EmbeddedResource Include="Resources\pointer.bmp" />
+    <EmbeddedResource Include="Resources\wallpaper.bmp" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Cosmos.System2" Version="0.1.0-localbuild20220721110206" />
+  </ItemGroup>
+
+</Project>

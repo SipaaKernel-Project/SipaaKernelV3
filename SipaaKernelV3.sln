@@ -1,0 +1,60 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.2.32630.192
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SipaaKernelV3", "SipaaKernelV3\SipaaKernelV3.csproj", "{5DC98678-2E1A-4B71-9A84-61866447F366}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SipaaKernelV3.Shard", "SipaaKernelV3.Shard\SipaaKernelV3.Shard.csproj", "{F59B3DE4-9B54-4BFE-80F0-A109DACEA5DB}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{0CD9FBC7-1676-47A2-91EC-C473537AC750}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SipaaKernelV3.Graphics", "SipaaKernel.Graphiques\SipaaKernelV3.Graphics.csproj", "{BAFAA83F-91EA-43C2-86A0-676148E63C19}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SipaaKernelV3.UI", "SipaaKernelV3.UI\SipaaKernelV3.UI.csproj", "{55AD3A4E-AFE9-46C3-B69A-C3E574CFBC31}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SipaaKernelV3.Core", "SipaaKernelV3.Core\SipaaKernelV3.Core.csproj", "{0BE4155D-6611-4593-9333-ED8077318822}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SipaaKernelV3.CommunicationServices", "SipaaKernelV3.CommunicationServices\SipaaKernelV3.CommunicationServices.csproj", "{578C69DD-FB7F-464D-9CD9-19E1F409B7BC}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{5DC98678-2E1A-4B71-9A84-61866447F366}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5DC98678-2E1A-4B71-9A84-61866447F366}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5DC98678-2E1A-4B71-9A84-61866447F366}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5DC98678-2E1A-4B71-9A84-61866447F366}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F59B3DE4-9B54-4BFE-80F0-A109DACEA5DB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F59B3DE4-9B54-4BFE-80F0-A109DACEA5DB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F59B3DE4-9B54-4BFE-80F0-A109DACEA5DB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F59B3DE4-9B54-4BFE-80F0-A109DACEA5DB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BAFAA83F-91EA-43C2-86A0-676148E63C19}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BAFAA83F-91EA-43C2-86A0-676148E63C19}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BAFAA83F-91EA-43C2-86A0-676148E63C19}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BAFAA83F-91EA-43C2-86A0-676148E63C19}.Release|Any CPU.Build.0 = Release|Any CPU
+		{55AD3A4E-AFE9-46C3-B69A-C3E574CFBC31}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{55AD3A4E-AFE9-46C3-B69A-C3E574CFBC31}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{55AD3A4E-AFE9-46C3-B69A-C3E574CFBC31}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{55AD3A4E-AFE9-46C3-B69A-C3E574CFBC31}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0BE4155D-6611-4593-9333-ED8077318822}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0BE4155D-6611-4593-9333-ED8077318822}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0BE4155D-6611-4593-9333-ED8077318822}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0BE4155D-6611-4593-9333-ED8077318822}.Release|Any CPU.Build.0 = Release|Any CPU
+		{578C69DD-FB7F-464D-9CD9-19E1F409B7BC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{578C69DD-FB7F-464D-9CD9-19E1F409B7BC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{578C69DD-FB7F-464D-9CD9-19E1F409B7BC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{578C69DD-FB7F-464D-9CD9-19E1F409B7BC}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {DB4F2E18-67E2-4529-B35D-6C7B0FACAC5F}
+	EndGlobalSection
+EndGlobal
