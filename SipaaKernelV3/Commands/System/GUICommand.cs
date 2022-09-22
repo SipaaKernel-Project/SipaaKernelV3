@@ -19,7 +19,7 @@ namespace SipaaKernelV3.Commands.System
         {
             //SKShowWindow(0);
             SKLoadGUI();
-            return CommandResult.Success;
+            return CommandResult.UnloadShard;
         }
     }
 }

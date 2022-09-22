@@ -51,7 +51,7 @@ namespace SipaaKernelV3.Shard
 
                 cmdLine.Arguments = args;
 
-                RunCommand(cmdLine, findedCommand);
+                if (RunCommand(cmdLine, findedCommand) == CommandResult.UnloadShard) { return; }
             }
             else
             {
@@ -59,7 +59,7 @@ namespace SipaaKernelV3.Shard
             }
         }
 
-        private void RunCommand(CommandLine cmdLine, Command c)
+        private CommandResult RunCommand(CommandLine cmdLine, Command c)
         {
             var result = c.Execute(cmdLine.Arguments);
 
@@ -74,6 +74,8 @@ namespace SipaaKernelV3.Shard
                     Console.WriteLine("Invalid arguments.", ConsoleColor.Red);
                     break;
             }
+
+            return result;
         }
     }
 }

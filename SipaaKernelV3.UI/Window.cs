@@ -1,5 +1,6 @@
 ﻿using Cosmos.System;
 using Cosmos.System.Graphics;
+using Cosmos.System.Graphics.Fonts;
 using SipaaKernelV3.Graphics;
 using System;
 using System.Collections.Generic;
@@ -11,7 +12,7 @@ namespace SipaaKernelV3.UI
 {
     public class Window
     {
-        public static bool HasWindowMoving = false;
+        public bool HasWindowMoving = false;
 
         public Bitmap Icon;
 
@@ -32,6 +33,7 @@ namespace SipaaKernelV3.UI
         public string text;
         public bool visible = false;
         public bool requestingQuit = false;
+        public bool fullscreenWindow = false;
 
         int px;
         int py;
@@ -42,13 +44,23 @@ namespace SipaaKernelV3.UI
         const int TitleBarHeight = 32;
         Button closeButton;
 
-        public Window(string text, uint width, uint height, uint x = 0, uint y = 0, Bitmap icon = null)
+        public Window(SipaVGA vga, string text, uint width, uint height,bool fullscreenMode = false, uint x = 0, uint y = 0, Bitmap icon = null)
         {
-            baseWidth = width;
-            baseHeight = height;
-            baseX = x;
-            baseY = y;
-
+            if (fullscreenMode)
+            {
+                fullscreenWindow = true;
+                baseWidth = vga.GetResolution().ScreenWidth;
+                baseHeight = vga.GetResolution().ScreenHeight;
+                baseX = 0;
+                baseY = 0;
+            }
+            else
+            {
+                baseWidth = width;
+                baseHeight = height;
+                baseX = x;
+                baseY = y;
+            }
             this.x = x + 2;
             this.y = y + TitleBarHeight;
             this.width = width - 4;
@@ -58,21 +70,21 @@ namespace SipaaKernelV3.UI
             this.closeButton = new Button("X", x + width - 32, baseY, 32, 32);
         }
 
-        public virtual void Draw(SGraphics g) 
+        public virtual void Draw(SipaVGA g)
         {
             if (visible)
             {
                 var theme = SysTheme.ThemeManager.GetCurrentTheme();
-                g.DrawFilledRectangle(theme.ClickedBackColor, new Position(baseX, baseY), new Size(baseWidth, baseHeight), borderRadius);
-                g.DrawFilledRectangle(theme.BackColor, new Position(baseX, baseY), new Size(baseWidth, TitleBarHeight), borderRadius);
+                g.DrawFilledRectangle(baseX, baseY, baseWidth, baseHeight, (uint)theme.AppBackColor.ToArgb());
+                g.DrawFilledRectangle(baseX, baseY, baseWidth, TitleBarHeight, (uint)theme.BackColor.ToArgb());
                 if (Icon != null)
                 {
-                    g.DrawBitmap(Icon, new Position(baseX + 6, baseY + TitleBarHeight / 2 - (uint)Icon.Height / 2), true);
-                    g.DrawString(text, theme.ForeColor, new Position(baseX + Icon.Width + 10, baseY + TitleBarHeight / 2 - (uint)g.Font.Height / 2));
+                    g.DrawImageAlpha(Icon, baseX + 6, baseY + TitleBarHeight / 2 - (uint)Icon.Height / 2, (uint)Color.MakeArgb(0, 0,0,0));
+                    g.DrawString(text, PCScreenFont.Default, (uint)theme.ForeColor.ToArgb(), baseX + Icon.Width + 10, baseY + TitleBarHeight / 2 - (uint)PCScreenFont.Default.Height / 2);
                 }
                 else
                 {
-                    g.DrawString(text, theme.ForeColor, new Position(baseX + 6, baseY + TitleBarHeight / 2 - (uint)g.Font.Height / 2));
+                    g.DrawString(text, PCScreenFont.Default, (uint)theme.ForeColor.ToArgb(), baseX + 6, baseY + TitleBarHeight / 2 - (uint)PCScreenFont.Default.Height / 2);
                 }
                 closeButton.Draw(g);
             }
@@ -84,7 +96,7 @@ namespace SipaaKernelV3.UI
             {
                 if (MouseManager.MouseState == MouseState.Left)
                 {
-                    if (!HasWindowMoving && MouseManager.X > baseX && MouseManager.X < baseX + baseWidth && MouseManager.Y > baseY && MouseManager.Y < baseY + TitleBarHeight)
+                    if (!HasWindowMoving && !fullscreenWindow & MouseManager.X > baseX && MouseManager.X < baseX + baseWidth && MouseManager.Y > baseY && MouseManager.Y < baseY + TitleBarHeight)
                     {
                         HasWindowMoving = true;
 

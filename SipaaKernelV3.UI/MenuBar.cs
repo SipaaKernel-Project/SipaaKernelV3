@@ -1,4 +1,5 @@
 ﻿using Cosmos.HAL;
+using Cosmos.System.Graphics.Fonts;
 using SipaaKernelV3.Graphics;
 using System;
 using System.Collections.Generic;
@@ -10,13 +11,13 @@ namespace SipaaKernelV3.UI
 {
     public class MenuBar
     {
-        public void Draw(SGraphics g)
+        public void Draw(SipaVGA g)
         {
             var theme = SysTheme.ThemeManager.GetCurrentTheme();
-            g.DrawFilledRectangle(theme.BackColor, new Position(0, 0), new Size(g.GetWidth(), 24));
-            g.DrawString("SipaaKernel V3", theme.ForeColor, new Position(4, 4));
+            g.DrawFilledRectangle(0, 0, g.GetResolution().ScreenWidth, 24, (uint)theme.BackColor.ToArgb());
+            g.DrawString("SipaaKernel V3",PCScreenFont.Default, (uint)theme.ForeColor.ToArgb(), 4, 4);
             string time = RTC.Hour.ToString() + ":" + RTC.Minute.ToString();
-            g.DrawString(time, theme.ForeColor, new Position(g.GetWidth() / 2 - g.Font.GetStringWidth(time) / 2, 4));
+            g.DrawString(time, PCScreenFont.Default, (uint)theme.ForeColor.ToArgb(),g.GetResolution().ScreenWidth / 2 - PCScreenFont.Default.GetStringWidth(time) / 2, 4);
         }
 
         public void Update()

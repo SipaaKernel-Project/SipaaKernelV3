@@ -9,19 +9,25 @@
   <ItemGroup>
     <None Remove="Resources\about.bmp" />
     <None Remove="Resources\consolemode.bmp" />
+    <None Remove="Resources\paint.bmp" />
     <None Remove="Resources\pointer.bmp" />
+    <None Remove="Resources\sipad.bmp" />
+    <None Remove="Resources\sklogo.bmp" />
     <None Remove="Resources\wallpaper.bmp" />
   </ItemGroup>
 
   <ItemGroup>
     <EmbeddedResource Include="Resources\about.bmp" />
     <EmbeddedResource Include="Resources\consolemode.bmp" />
+    <EmbeddedResource Include="Resources\paint.bmp" />
     <EmbeddedResource Include="Resources\pointer.bmp" />
+    <EmbeddedResource Include="Resources\sipad.bmp" />
+    <EmbeddedResource Include="Resources\sklogo.bmp" />
     <EmbeddedResource Include="Resources\wallpaper.bmp" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Cosmos.System2" Version="0.1.0-localbuild20220721110206" />
+    <PackageReference Include="Cosmos.System2" Version="0.1.0-localbuild20220920035642" />
   </ItemGroup>
 
 </Project>

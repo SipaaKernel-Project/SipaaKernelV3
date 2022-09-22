@@ -18,7 +18,7 @@ namespace SipaaKernelV3.Commands.System
             Console.WriteLine("Rebooting...");
             Kernel.appManager = null;
             Kernel.cr = null;
-            Kernel.d = null;
+            //Kernel.d = null;
             Kernel.mb = null;
             Kernel.sh = null;
             Cosmos.HAL.Global.PIT.Wait(5000);

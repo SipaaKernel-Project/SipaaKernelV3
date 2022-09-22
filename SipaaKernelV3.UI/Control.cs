@@ -10,7 +10,7 @@ namespace SipaaKernelV3.UI
         public uint X { get { return x; } set { x = value; } }
         public uint Y { get { return y; } set { y = value; } }
 
-        public virtual void Draw(SGraphics c) { }
+        public virtual void Draw(SipaVGA c) { }
 
         public virtual void Update() { }
     }

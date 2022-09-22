@@ -4,6 +4,11 @@ using Cosmos.System.Graphics.Fonts;
 
 namespace SipaaKernelV3.Graphics
 {
+    /// <summary>
+    /// Old Sipaa Graphics
+    /// 
+    /// I recommand switching to SipaVGA, its 50% same, and it have better performance
+    /// </summary>
     public class SGraphics
     {
         private Font font = PCScreenFont.Default;
