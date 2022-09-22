@@ -3,6 +3,7 @@ using Cosmos.System.Graphics.Fonts;
 using SipaaKernelV3.Commands.FileSystem;
 using SipaaKernelV3.Commands.System;
 using SipaaKernelV3.Core;
+using SipaaKernelV3.Core.Keyboard;
 using SipaaKernelV3.Graphics;
 using SipaaKernelV3.Shard;
 using SipaaKernelV3.UI;
@@ -32,13 +33,18 @@ namespace SipaaKernelV3
         public static Shell sh;
         public static CommandRegister cr;
         public static PermissionManager permManager;
-        public static SGraphics g;
-        public static Dock d;
+        public static Desktop d;
+        public static SipaVGA g;
         public static MenuBar mb;
         public static FileSystemDriver fsd;
         public static AppManager appManager;
+        public static Bitmap wallpaperScaled;
+        public static string Username = "Raphael";
+        public static string Password = "0000";
         public static string CurrentDir = @"0:\";
         public static uint permToken;
+        public static bool dev = true;
+        public static bool requestRunFunctionExit = false;
         #endregion
         #region Crash Methods
         static void SKRaiseKernelHardError(uint errorCode)
@@ -100,116 +106,86 @@ namespace SipaaKernelV3
             }
         }
         #endregion
-        #region Shard
-        static void InitShell()
-        {
-            cr = new CommandRegister();
-            cr.AppendCommand(new GUICommand());
-            cr.AppendCommand(new AboutCommand());
-            cr.AppendCommand(new ShutdownCommand());
-            cr.AppendCommand(new RebootCommand());
-            cr.AppendCommand(new PermissionManagerCommand());
-            cr.AppendCommand(new ResetAppManagerCommand());
-            cr.AppendCommand(new ChangeResCommand());
-            cr.AppendCommand(new EchoCommand());
-            cr.AppendCommand(new ListDirsFilesCommand());
-            sh = new Shell(cr);
-            sh.StartLine = "user@sipaakernel:> ";
-            Console.Clear();
-            Console.WriteLine("SipaaKernel V3");
-            Console.WriteLine("Type help to get all commands, gui to enter GUI mode.");
-            Console.WriteLine();
-        }
-        static void UpdateStartLine()
-        {
-            string startline = "";
-            if (permManager.IsUserHavePermission(Permission.PermRoot))
-            {
-                startline += "root@";
-            }
-            else if (permManager.IsUserHavePermission(Permission.PermGuest))
-            {
-                startline += "guest@";
-            }
-            else
-            {
-                startline += "user@";
-            }
-
-            startline += CurrentDir + ":>";
-            sh.StartLine = startline;
-        }
-        #endregion
         #region Kernel
         public static void SKLoadGUI()
         {
-            Sys.MouseManager.ScreenWidth = g.GetWidth();
-            Sys.MouseManager.ScreenHeight = g.GetHeight();
-            g.Init();
+            Sys.MouseManager.ScreenWidth = g.GetResolution().ScreenWidth;
+            Sys.MouseManager.ScreenHeight = g.GetResolution().ScreenHeight;
+            g.LoadDriver();
         }
         public static void SKChangeRes(uint width, uint height)
         {
-            Sys.MouseManager.ScreenWidth = g.GetWidth();
-            Sys.MouseManager.ScreenHeight = g.GetHeight();
-            g.SetResolution(width, height);
-            d = new Dock(g);
-            mb = new MenuBar();
+            g.SetResolution(new SVGAMode(width, height));
+            Sys.MouseManager.ScreenWidth = g.GetResolution().ScreenWidth;
+            Sys.MouseManager.ScreenHeight = g.GetResolution().ScreenHeight;
+            d = new Desktop(g);
         }
-        public static void SKLoadConsole()
+        public static void SKOpenApp(Application app, Bitmap appIcon)
         {
-            g.Disable();
+            appManager.OpenApp(app);
+            d.tb.AddTaskbarButton(app, appIcon);
         }
-
         protected override void OnBoot()
         {
             base.OnBoot();
-            Console.WriteLine("Initializing file system...");
+            Console.WriteLine("[INFO] Starting SipaaKernel PreInitialization...");
+            Console.WriteLine("[INFO] Initializing file system...");
             fsd = new FileSystemDriver();
             fsd.Initialize();
-            Console.WriteLine("Initializing permission manager...");
+            Console.WriteLine("[INFO] Initializing permission manager...");
             permManager = new PermissionManager();
             permToken = permManager.Initialize();
-            Console.WriteLine("Initializing App Manager...");
+            Console.WriteLine("[INFO] Initializing App Manager...");
             appManager = new AppManager();
-            Console.WriteLine("Initializing Shard Shell...");
-            InitShell();
+            Console.WriteLine("[OK] SipaaKernel PreInitialization finished!");
         }
         protected override void BeforeRun()
         {
-            g = new SGraphics();
-            d = new Dock(g);
-            mb = new MenuBar();
+            g = new SipaVGA();
+            d = new Desktop(g);
+            SKLoadGUI();
         }
 
         protected override void Run()
         {
-            if (g.IsGuiEnabled())
+            RunKernel();
+        }
+        static void RunKernel()
+        {
+            try
             {
-                // Draw wallpaper
-                g.DrawBitmap(Resources.wallpaper, new Position(0, 0));
-                // Draw FPS
-                g.DrawString("Running at " + g.GetFPS() + " FPS", Color.White, new Position(10, 10));
-                // Draw apps
+                KBPS2.Update();
+                if (requestRunFunctionExit) { requestRunFunctionExit = false; return; }
+                g.Clear((uint)Color.MakeArgb(255, 12, 12, 12));
+                d.Draw(g);
+                g.DrawString("SipaVGA driver (FPS : " + g.GetFPS() + ")", PCScreenFont.Default, 0xFFFFFF, 6, 6);
                 foreach (Application app in appManager.OpenedApps)
                 {
                     app.OnDraw(g);
                     app.OnUpdate();
-                    if (app.RequestingQuit) { appManager.CloseApp(app); }
+                    if (app.RequestingQuit)
+                    {
+                        appManager.CloseApp(app);
+                        d.tb.RemoveTaskbarButton(app);
+                    }
                 }
-                // Draw dock
-                mb.Draw(g);
-                mb.Update();
-                d.Draw(g);
-                d.Update(appManager);
-                if (d.returnToConsole.ButtonState == ButtonState.Clicked) { return; }
-                // Draw cursor and apply graphics to screen
-                g.DrawBitmap(Resources.cursor, new Position(Sys.MouseManager.X, Sys.MouseManager.Y), true);
+                d.DrawStartMenu(g);
+                d.Update();
+                g.DrawImageAlpha(Resources.cursor, Sys.MouseManager.X, Sys.MouseManager.Y, (uint)Color.MakeArgb(0, 0, 0, 0));
                 g.Update();
             }
-            else
+            catch (Exception ex)
             {
-                UpdateStartLine();
-                sh.GetAndRunCommand();
+                if (g.IsDriverLoaded())
+                {
+                    g.UnloadDriver();
+                }
+                Console.WriteLine("---- SIPAAKERNEL PANIC ----");
+                Console.WriteLine("We are sorry than that happened for you. Here is some info :");
+                Console.WriteLine();
+                Console.WriteLine("Date of event : " + Cosmos.HAL.RTC.DayOfTheMonth + "/" + Cosmos.HAL.RTC.Month + "/" + Cosmos.HAL.RTC.Year);
+                Console.WriteLine("Time of event : " + Cosmos.HAL.RTC.Hour + ":" + Cosmos.HAL.RTC.Minute + ":" + Cosmos.HAL.RTC.Second);
+                Console.WriteLine("Exception Message : " + ex.Message);
             }
         }
         #endregion

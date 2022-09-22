@@ -25,6 +25,28 @@ namespace SipaaKernelV3.Graphics
         public uint G { get => g; set => g = value; }
         public uint B { get => b; set => b = value; }
 
+        // Thanks to Microsoft Reference Source
+        private const int ARGBAlphaShift = 24;
+        private const int ARGBRedShift = 16;
+        private const int ARGBGreenShift = 8;
+        private const int ARGBBlueShift = 0;
+
+        public static long MakeArgb(byte alpha, byte red, byte green, byte blue)
+        {
+            return (long)(unchecked((uint)(red << ARGBRedShift |
+                         green << ARGBGreenShift |
+                         blue << ARGBBlueShift |
+                         alpha << ARGBAlphaShift))) & 0xffffffff;
+        }
+
+        public long ToArgb()
+        {
+            return (long)(unchecked((uint)(r << ARGBRedShift |
+                         g << ARGBGreenShift |
+                         b << ARGBBlueShift |
+                         a << ARGBAlphaShift))) & 0xffffffff;
+        }
+
         public Color(uint a, uint r, uint g, uint b)
         {
             if (a > 255 || r > 255 || g > 255 || b > 255)

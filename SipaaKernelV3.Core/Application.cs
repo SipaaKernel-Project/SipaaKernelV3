@@ -2,6 +2,10 @@
 
 namespace SipaaKernelV3.Core
 {
+    public enum Message
+    {
+        CHANGEWINDOWVISIBILITY
+    }
     public abstract class Application : IDisposable
     {
         private string AppName;
@@ -12,8 +16,15 @@ namespace SipaaKernelV3.Core
             AppStart();
         }
         public abstract void AppStart();
-        public abstract void OnDraw(SGraphics g);
+        public abstract void OnDraw(SipaVGA g);
         public abstract void OnUpdate();
+        public virtual void OnMessageReceived(Message m)
+        {
+        }
+        public void SendMessage(Message m)
+        {
+            OnMessageReceived(m);
+        }
         public void RequestQuit()
         {
             RequestingQuit = true;

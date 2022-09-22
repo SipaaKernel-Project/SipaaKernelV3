@@ -18,13 +18,18 @@ namespace SipaaKernelV3.Commands.System
             Console.WriteLine("Shutting down...");
             Kernel.appManager = null;
             Kernel.cr = null;
-            Kernel.d = null;
+           // Kernel.d = null;
             Kernel.mb = null;
             Kernel.sh = null;
             Cosmos.HAL.Global.PIT.Wait(5000);
             Console.WriteLine("Thanks for using SipaaKernel V3!");
             Cosmos.HAL.Global.PIT.Wait(2000);
-            Cosmos.System.Power.Shutdown();
+            Console.Clear();
+            Console.WriteLine("It is now safe to turn off your computer.");
+            while (true)
+            {
+                Cosmos.HAL.Global.PIT.Wait(2000);
+            }
             return CommandResult.Success;
         }
     }

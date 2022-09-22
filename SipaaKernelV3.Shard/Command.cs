@@ -23,5 +23,6 @@
         Error,
         Success,
         InvalidArgs,
+        UnloadShard
     }
 }
